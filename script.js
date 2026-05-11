@@ -18,24 +18,44 @@ document.addEventListener('DOMContentLoaded', function() {
         return date.toLocaleDateString('ar-EG', options);
     }
     
-    function updatePrayerTimes(times) {
-        let prayerTimes = {
-            "الفجر": times.Fajr,
-            "الشروق": times.Sunrise,
-            "الظهر": times.Dhuhr,
-            "العصر": times.Asr,
-            "المغرب": times.Maghrib,
-            "العشاء": times.Isha
-        };
-        
-        let prayerElements = document.querySelectorAll('#prayer-name');
-        for (let i = 0; i < prayerElements.length; i++) {
-            let prayerName = prayerElements[i].textContent;
-            if (prayerTimes[prayerName]) {
-                prayerElements[i].nextElementSibling.textContent = prayerTimes[prayerName];
-            }
+function formatTime(time) {
+    let [hours, minutes] = time.split(":");
+
+    hours = parseInt(hours);
+
+    let period = hours >= 12 ? "مساءً" : "صباحًا";
+
+    hours = hours % 12;
+
+    if (hours === 0) {
+        hours = 12;
+    }
+
+    return `${hours}:${minutes} ${period}`;
+}
+
+function updatePrayerTimes(times) {
+    let prayerTimes = {
+        "الفجر": times.Fajr,
+        "الشروق": times.Sunrise,
+        "الظهر": times.Dhuhr,
+        "العصر": times.Asr,
+        "المغرب": times.Maghrib,
+        "العشاء": times.Isha
+    };
+    
+    let prayerElements = document.querySelectorAll('#prayer-name');
+
+    for (let i = 0; i < prayerElements.length; i++) {
+        let prayerName = prayerElements[i].textContent;
+
+        if (prayerTimes[prayerName]) {
+            prayerElements[i].nextElementSibling.textContent =
+                formatTime(prayerTimes[prayerName]);
         }
     }
+}
+
     
     // Fetch prayer times from API using async/await
     async function fetchPrayerTimes(cityName) {
