@@ -68,6 +68,7 @@ document.addEventListener('DOMContentLoaded', function () {
         );
 
         let data = await response.json();
+        console.log(data);
 
         updatePrayerTimes(data.data.timings);
     }
