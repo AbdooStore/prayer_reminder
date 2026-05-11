@@ -4,7 +4,11 @@ document.addEventListener('DOMContentLoaded', function() {
     let cityToAPI = {
         "الأسكندرية": { city: "Alexandria", country: "Egypt" },  
         "القاهرة": { city: "Cairo", country: "Egypt" },
-        "الجيزة": { city: "Giza", country: "Egypt" }
+        "أسوان": { city: "Aswan", country: "Egypt" },
+     
+        "الرياض": { city: "Riyadh", country: "Saudi Arabia" },
+        "جدة": { city: "Jeddah", country: "Saudi Arabia" },
+        "الخبر": { city: "Khobar", country: "Saudi Arabia" }
     };
     
     // Get elements
