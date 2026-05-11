@@ -1,3 +1,4 @@
+console.log("JS WORKING");
 document.addEventListener('DOMContentLoaded', function () {
 
     let currentCity = "الأسكندرية";
