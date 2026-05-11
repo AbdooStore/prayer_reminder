@@ -4,65 +4,113 @@
         <title>مواقيت الصلاة</title>
     </head>
     <style>
-        body{
-            direction: rtl;
-            background-color: #431a67;
-            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-            color: white;
-        }
-        #container{
-            margin: 50px;
-            padding: 20px;
-        }
-        h1{
-            font-size: 50px;
-        }
-        #date{
-            font-size:25px ;
-            margin-bottom: 20px;
-        }
-        #prayers-times{
-            display: flex;
-            justify-content: space-around;
-            flex-wrap: wrap;
-        }
-        #prayer-box{
-            background: white;
-            color: black;
-            width:150px;
-            text-align: center;
-            padding: 20px;
-            margin-top: 30px;
-            font-size: 24px;
-            border-radius: 15px;
-        }
-        #prayer-name{
-            background:  #6f3f99;
-            padding: 5px;
-            color: white;
-            border-radius: 15px;
-        }
-        #prayer-time{
-            margin-top: 15px;
-            font-weight: bold;
-        }
-        #city-box{
-            display: flex;
-            justify-content: center;
-            margin-top: 100px;
-        }
-        #cities{
-            width: 200px;
-            height: 40px;
-            font-size: 24px;
-            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-            border-radius: 15px;
-            background: none;
-            color: white;
-        }
+   body{
+    direction: rtl;
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(135deg, #2b1055, #431a67, #1a0033);
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    color: white;
+}
 
-        #cities option{
-            background: #6f3f99;
+/* الكونتينر الرئيسي */
+#container{
+    margin: auto;
+    padding: 40px;
+    max-width: 1100px;
+}
+
+/* العنوان */
+h1{
+    font-size: 55px;
+    margin-bottom: 10px;
+    color: #ffffff;
+    text-shadow: 0 5px 20px rgba(0,0,0,0.5);
+}
+
+/* التاريخ */
+#date{
+    font-size: 22px;
+    margin-bottom: 20px;
+    opacity: 0.9;
+}
+
+/* خط */
+hr{
+    border: none;
+    height: 1px;
+    background: rgba(255,255,255,0.2);
+    margin-bottom: 30px;
+}
+
+/* بوكسات الصلاة */
+#prayers-times{
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+/* كل بوكس */
+#prayer-box{
+    background: rgba(255,255,255,0.08);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255,255,255,0.2);
+
+    width: 160px;
+    text-align: center;
+    padding: 20px;
+    font-size: 22px;
+    border-radius: 18px;
+
+    transition: 0.3s;
+}
+
+#prayer-box:hover{
+    transform: translateY(-8px);
+    background: rgba(255,255,255,0.15);
+}
+
+/* اسم الصلاة */
+#prayer-name{
+    background: linear-gradient(45deg, #6f3f99, #9b59b6);
+    padding: 6px;
+    color: white;
+    border-radius: 12px;
+    font-weight: bold;
+}
+
+/* الوقت */
+#prayer-time{
+    margin-top: 15px;
+    font-weight: bold;
+    font-size: 20px;
+}
+
+/* اختيار المدينة */
+#city-box{
+    display: flex;
+    justify-content: center;
+    margin-top: 70px;
+}
+
+#cities{
+    width: 250px;
+    height: 45px;
+    font-size: 20px;
+    border-radius: 12px;
+    background: rgba(255,255,255,0.1);
+    color: white;
+    border: 1px solid rgba(255,255,255,0.3);
+    outline: none;
+    padding: 5px;
+    cursor: pointer;
+}
+
+#cities option{
+    background: #2b1055;
+}
         }
     </style>
     <body>
