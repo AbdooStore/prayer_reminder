@@ -3,6 +3,7 @@ document.addEventListener('DOMContentLoaded', function () {
     let currentCity = "الأسكندرية";
 
     let cityToAPI = {
+
         "الأسكندرية": {
             city: "Alexandria",
             country: "Egypt",
@@ -40,13 +41,14 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     };
 
-    // Get elements
+    // عناصر الصفحة
     let citySelect = document.getElementById('cities');
     let cityTitle = document.querySelector('h1');
     let dateElement = document.getElementById('date');
 
-    // Format Arabic Date
+    // تنسيق التاريخ بالعربي
     function formatArabicDate(date) {
+
         let options = {
             weekday: 'long',
             year: 'numeric',
@@ -57,7 +59,7 @@ document.addEventListener('DOMContentLoaded', function () {
         return date.toLocaleDateString('ar-EG', options);
     }
 
-    // Convert 24h to AM/PM
+    // تحويل الوقت من 24 ساعة إلى صباحًا / مساءً
     function formatTime(time) {
 
         let cleanTime = time.split(" ")[0];
@@ -77,7 +79,7 @@ document.addEventListener('DOMContentLoaded', function () {
         return `${hours}:${minutes} ${period}`;
     }
 
-    // Update prayer times
+    // تحديث مواقيت الصلاة
     function updatePrayerTimes(times) {
 
         let prayerTimes = {
@@ -103,7 +105,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
-    // Fetch Prayer Times
+    // جلب مواقيت الصلاة
     async function fetchPrayerTimes(cityName) {
 
         let cityInfo = cityToAPI[cityName];
@@ -114,14 +116,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
         dateElement.textContent = formatArabicDate(today);
 
-        let day = today.getDate();
-        let month = today.getMonth() + 1;
-        let year = today.getFullYear();
-
         try {
 
             let response = await fetch(
-                `https://api.aladhan.com/v1/timingsByCity/${day}-${month}-${year}?city=${cityInfo.city}&country=${cityInfo.country}&method=${cityInfo.method}`
+                `https://api.aladhan.com/v1/timingsByCity?city=${cityInfo.city}&country=${cityInfo.country}&method=${cityInfo.method}`
             );
 
             let data = await response.json();
@@ -134,7 +132,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
-    // Handle city change
+    // تغيير المدينة
     function handleCityChange() {
 
         currentCity = this.value;
@@ -146,7 +144,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     citySelect.addEventListener('change', handleCityChange);
 
-    // Initial load
+    // تشغيل أول مرة
     fetchPrayerTimes(currentCity);
 
 });
