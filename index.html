@@ -3,6 +3,9 @@
 <head>
     <title>مواقيت الصلاة</title>
 
+    <!-- مهم للموبايل -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <style>
         body{
             direction: rtl;
@@ -13,7 +16,6 @@
             color: white;
         }
 
-        /* الكونتينر */
         #container{
             margin: auto;
             padding: 40px;
@@ -39,7 +41,6 @@
             margin-bottom: 30px;
         }
 
-        /* البوكسات */
         #prayers-times{
             display: flex;
             justify-content: center;
@@ -79,7 +80,6 @@
             font-size: 20px;
         }
 
-        /* اختيار المدينة */
         #city-box{
             display: flex;
             justify-content: center;
@@ -95,12 +95,37 @@
             color: white;
             border: 1px solid rgba(255,255,255,0.3);
             outline: none;
-            padding: 5px;
             cursor: pointer;
         }
 
         #cities option{
             background: #2b1055;
+        }
+
+        /* 🔥 موبايل */
+        @media (max-width: 768px){
+
+            h1{
+                font-size: 32px;
+                text-align: center;
+            }
+
+            #container{
+                padding: 20px;
+            }
+
+            #prayers-times{
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .prayer-box{
+                width: 85%;
+            }
+
+            #cities{
+                width: 90%;
+            }
         }
     </style>
 </head>
@@ -110,39 +135,39 @@
 <div id="container">
 
     <h1 id="main">الأسكندرية</h1>
-    <div id="date">الأحد 23 مارس 2025</div>
+    <div id="date">...</div>
     <hr>
 
     <div id="prayers-times">
 
         <div class="prayer-box">
             <div class="prayer-name">الفجر</div>
-            <div class="prayer-time">04:11</div>
+            <div class="prayer-time">--</div>
         </div>
 
         <div class="prayer-box">
             <div class="prayer-name">الشروق</div>
-            <div class="prayer-time">04:11</div>
+            <div class="prayer-time">--</div>
         </div>
 
         <div class="prayer-box">
             <div class="prayer-name">الظهر</div>
-            <div class="prayer-time">04:11</div>
+            <div class="prayer-time">--</div>
         </div>
 
         <div class="prayer-box">
             <div class="prayer-name">العصر</div>
-            <div class="prayer-time">04:11</div>
+            <div class="prayer-time">--</div>
         </div>
 
         <div class="prayer-box">
             <div class="prayer-name">المغرب</div>
-            <div class="prayer-time">04:11</div>
+            <div class="prayer-time">--</div>
         </div>
 
         <div class="prayer-box">
             <div class="prayer-name">العشاء</div>
-            <div class="prayer-time">04:11</div>
+            <div class="prayer-time">--</div>
         </div>
 
     </div>
