@@ -2,41 +2,42 @@ document.addEventListener('DOMContentLoaded', function () {
 
     let currentCity = "الأسكندرية";
 
+    // استخدم إحداثيات بدل أسماء المدن (أدق)
     let cityToAPI = {
 
         "الأسكندرية": {
-            city: "Alexandria",
-            country: "Egypt",
+            lat: 31.2001,
+            lon: 29.9187,
             method: 5
         },
 
         "القاهرة": {
-            city: "Cairo",
-            country: "Egypt",
+            lat: 30.0444,
+            lon: 31.2357,
             method: 5
         },
 
         "أسوان": {
-            city: "Aswan",
-            country: "Egypt",
+            lat: 24.0889,
+            lon: 32.8998,
             method: 5
         },
 
         "الرياض": {
-            city: "Riyadh",
-            country: "Saudi Arabia",
+            lat: 24.7136,
+            lon: 46.6753,
             method: 4
         },
 
         "جدة": {
-            city: "Jeddah",
-            country: "Saudi Arabia",
+            lat: 21.4858,
+            lon: 39.1925,
             method: 4
         },
 
         "الخبر": {
-            city: "Khobar",
-            country: "Saudi Arabia",
+            lat: 26.2172,
+            lon: 50.1971,
             method: 4
         }
     };
@@ -46,7 +47,6 @@ document.addEventListener('DOMContentLoaded', function () {
     let cityTitle = document.querySelector('h1');
     let dateElement = document.getElementById('date');
 
-    // تنسيق التاريخ بالعربي
     function formatArabicDate(date) {
 
         let options = {
@@ -59,7 +59,6 @@ document.addEventListener('DOMContentLoaded', function () {
         return date.toLocaleDateString('ar-EG', options);
     }
 
-    // تحويل الوقت من 24 ساعة إلى صباحًا / مساءً
     function formatTime(time) {
 
         let cleanTime = time.split(" ")[0];
@@ -72,14 +71,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
         hours = hours % 12;
 
-        if (hours === 0) {
-            hours = 12;
-        }
+        if (hours === 0) hours = 12;
 
         return `${hours}:${minutes} ${period}`;
     }
 
-    // تحديث مواقيت الصلاة
     function updatePrayerTimes(times) {
 
         let prayerTimes = {
@@ -98,14 +94,12 @@ document.addEventListener('DOMContentLoaded', function () {
             let prayerName = prayerElements[i].textContent;
 
             if (prayerTimes[prayerName]) {
-
                 prayerElements[i].nextElementSibling.textContent =
                     formatTime(prayerTimes[prayerName]);
             }
         }
     }
 
-    // جلب مواقيت الصلاة
     async function fetchPrayerTimes(cityName) {
 
         let cityInfo = cityToAPI[cityName];
@@ -119,7 +113,7 @@ document.addEventListener('DOMContentLoaded', function () {
         try {
 
             let response = await fetch(
-                `https://api.aladhan.com/v1/timingsByCity?city=${cityInfo.city}&country=${cityInfo.country}&method=${cityInfo.method}`
+                `https://api.aladhan.com/v1/timings?latitude=${cityInfo.lat}&longitude=${cityInfo.lon}&method=${cityInfo.method}`
             );
 
             let data = await response.json();
@@ -127,12 +121,10 @@ document.addEventListener('DOMContentLoaded', function () {
             updatePrayerTimes(data.data.timings);
 
         } catch (error) {
-
             console.log("حدث خطأ:", error);
         }
     }
 
-    // تغيير المدينة
     function handleCityChange() {
 
         currentCity = this.value;
@@ -144,7 +136,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
     citySelect.addEventListener('change', handleCityChange);
 
-    // تشغيل أول مرة
     fetchPrayerTimes(currentCity);
 
 });
