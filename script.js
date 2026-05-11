@@ -1,98 +1,152 @@
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
 
     let currentCity = "الأسكندرية";
+
     let cityToAPI = {
-        "الأسكندرية": { city: "Alexandria", country: "Egypt" },  
-        "القاهرة": { city: "Cairo", country: "Egypt" },
-        "أسوان": { city: "Aswan", country: "Egypt" },
-     
-        "الرياض": { city: "Riyadh", country: "Saudi Arabia" },
-        "جدة": { city: "Jeddah", country: "Saudi Arabia" },
-        "الخبر": { city: "Khobar", country: "Saudi Arabia" }
+        "الأسكندرية": {
+            city: "Alexandria",
+            country: "Egypt",
+            method: 5
+        },
+
+        "القاهرة": {
+            city: "Cairo",
+            country: "Egypt",
+            method: 5
+        },
+
+        "أسوان": {
+            city: "Aswan",
+            country: "Egypt",
+            method: 5
+        },
+
+        "الرياض": {
+            city: "Riyadh",
+            country: "Saudi Arabia",
+            method: 4
+        },
+
+        "جدة": {
+            city: "Jeddah",
+            country: "Saudi Arabia",
+            method: 4
+        },
+
+        "الخبر": {
+            city: "Khobar",
+            country: "Saudi Arabia",
+            method: 4
+        }
     };
-    
+
     // Get elements
     let citySelect = document.getElementById('cities');
     let cityTitle = document.querySelector('h1');
     let dateElement = document.getElementById('date');
-    
-    // Format date in Arabic
+
+    // Format Arabic Date
     function formatArabicDate(date) {
-        let options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+        let options = {
+            weekday: 'long',
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+        };
+
         return date.toLocaleDateString('ar-EG', options);
     }
-    
-function formatTime(time) {
-    let [hours, minutes] = time.split(":");
 
-    hours = parseInt(hours);
+    // Convert 24h to AM/PM
+    function formatTime(time) {
 
-    let period = hours >= 12 ? "مساءً" : "صباحًا";
+        let cleanTime = time.split(" ")[0];
 
-    hours = hours % 12;
+        let [hours, minutes] = cleanTime.split(":");
 
-    if (hours === 0) {
-        hours = 12;
+        hours = parseInt(hours);
+
+        let period = hours >= 12 ? "مساءً" : "صباحًا";
+
+        hours = hours % 12;
+
+        if (hours === 0) {
+            hours = 12;
+        }
+
+        return `${hours}:${minutes} ${period}`;
     }
 
-    return `${hours}:${minutes} ${period}`;
-}
+    // Update prayer times
+    function updatePrayerTimes(times) {
 
-function updatePrayerTimes(times) {
-    let prayerTimes = {
-        "الفجر": times.Fajr,
-        "الشروق": times.Sunrise,
-        "الظهر": times.Dhuhr,
-        "العصر": times.Asr,
-        "المغرب": times.Maghrib,
-        "العشاء": times.Isha
-    };
-    
-    let prayerElements = document.querySelectorAll('#prayer-name');
+        let prayerTimes = {
+            "الفجر": times.Fajr,
+            "الشروق": times.Sunrise,
+            "الظهر": times.Dhuhr,
+            "العصر": times.Asr,
+            "المغرب": times.Maghrib,
+            "العشاء": times.Isha
+        };
 
-    for (let i = 0; i < prayerElements.length; i++) {
-        let prayerName = prayerElements[i].textContent;
+        let prayerElements = document.querySelectorAll('#prayer-name');
 
-        if (prayerTimes[prayerName]) {
-            prayerElements[i].nextElementSibling.textContent =
-                formatTime(prayerTimes[prayerName]);
+        for (let i = 0; i < prayerElements.length; i++) {
+
+            let prayerName = prayerElements[i].textContent;
+
+            if (prayerTimes[prayerName]) {
+
+                prayerElements[i].nextElementSibling.textContent =
+                    formatTime(prayerTimes[prayerName]);
+            }
         }
     }
-}
 
-    
-    // Fetch prayer times from API using async/await
+    // Fetch Prayer Times
     async function fetchPrayerTimes(cityName) {
-            let cityInfo = cityToAPI[cityName];
-            if (!cityInfo) return;
-            
-            let today = new Date();
-            dateElement.textContent = formatArabicDate(today);
-            
-            let day = today.getDate();
-            let month = today.getMonth() + 1;
-            let year = today.getFullYear();
-            
+
+        let cityInfo = cityToAPI[cityName];
+
+        if (!cityInfo) return;
+
+        let today = new Date();
+
+        dateElement.textContent = formatArabicDate(today);
+
+        let day = today.getDate();
+        let month = today.getMonth() + 1;
+        let year = today.getFullYear();
+
+        try {
+
             let response = await fetch(
-                `https://api.aladhan.com/v1/timingsByCity/${day}-${month}-${year}?city=${cityInfo.city}&country=${cityInfo.country}&method=5`
+                `https://api.aladhan.com/v1/timingsByCity/${day}-${month}-${year}?city=${cityInfo.city}&country=${cityInfo.country}&method=${cityInfo.method}`
             );
-            
+
             let data = await response.json();
-            
+
             updatePrayerTimes(data.data.timings);
-           
-       
+
+        } catch (error) {
+
+            console.log("حدث خطأ:", error);
+        }
     }
 
-    // Handle city selection change
+    // Handle city change
     function handleCityChange() {
+
         currentCity = this.value;
+
         cityTitle.textContent = currentCity;
+
         fetchPrayerTimes(currentCity);
     }
-    
+
     citySelect.addEventListener('change', handleCityChange);
-    
-    // Initialize with default city
+
+    // Initial load
     fetchPrayerTimes(currentCity);
+
 });
